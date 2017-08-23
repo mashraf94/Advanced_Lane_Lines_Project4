@@ -16,12 +16,13 @@ The goals / steps of this project are the following:
 ### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
 
 ---
-
+## Matrices Calculation 
 ### 1. Camera Calibration
 The code for this step is contained in the first code cell of the IPython Notebook located in "./examples/example.ipynb" (or in lines # through # of the file called `some_file.py`).  
 
 To calibrate the camera, the calibration images found at [calib_imgs](./calib_imgs) folder, representing a 9x6 Chessboard:
 *The following procedures acquired the calibration matrix* ``mtx`` *which was used to undistort any image took by the car's camera.*
+* The function `calibrate()` is used to execute the following steps:
 1. Determining Object Points of (x, y, z) coordinates of the chessboard corners in real world.
     * The chessboard is assumed to be fixed on the (x, y) plane, hence z = 0
     * The same Object Points were assigned for each calibration image, thus `objpoints` is just a replicated array of `objp`
@@ -38,7 +39,7 @@ The following figure represents the undistortion applied to 2 chessboard images:
 * Row2: The Chessboard's corners aren't all included in the image, hence it's corners weren't detected, nonetheless was undistorted using `mtx` and `dist`
 
 <p align="center">
-<img align="center" src="./writup_imgs/calibration.png" alt="alt text" width="2000" height="600">
+<img align="center" src="./writup_imgs/calibration.png" alt="alt text">
 </p>
 
 ### 2. Transformation Matrix
@@ -70,21 +71,21 @@ This resulted in the following source and destination points:
 
 | Source        | Destination   | 
 |:-------------:|:-------------:| 
-| 244.5,685.5     | 200, 720        | 
-| 575.5,462.5     | 200, 0      |
-| 706.5,462.5     | 1080, 0      |
-| 1061.6,685.4      | 1080, 720        |
+| 244.5 , 685.5     | 200 , 720        | 
+| 575.5 , 462.5     | 200 , 0      |
+| 706.5 , 462.5     | 1080 , 0      |
+| 1061.6 , 685.4      | 1080 , 720        |
 
 3. Using OpenCV function `cv2.getPerspectiveTransform` we acquire transformation matrix `M` to warp images into bird's eye view.
 4. Through flipping the `src` and `dst` points in `cv2.getPerspectiveTransform` we get the tranformation matrix `Minv` to unwrap the wrapped images back to it's original state.
 * These images represent the `src` points on the Original Image and `dst` points on Warped Image
 <p align="center">
-<img align="center" src="./writup_imgs/points_warp.png" alt="alt text" width="2000" height="600">
+<img align="center" src="./writup_imgs/points_warp.png" alt="alt text">
 </p>
 
-### Single Image Processing Pipeline 
+## Single Image Processing Pipeline 
 
-#### 1. Provide an example of a distortion-corrected image.
+### 1. Remove Image Distortion `cv2.undistort()`
 
 To demonstrate this step, I will describe how I apply the distortion correction to one of the test images like this one:
 ![alt text][image2]
