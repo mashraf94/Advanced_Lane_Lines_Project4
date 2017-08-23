@@ -231,7 +231,8 @@ The `draw_road()` function executes the final touch on the detected lanes:
   
 #### Pipeline Output
 
-Here's a [link to my video result](./project_output.mp4)
+Here's my pipeline's [output video](./project_output.mp4)
+Moreover, a [youtube link](https://youtu.be/B-C9LrFamvI) for the video.
 
 ---
 
@@ -244,4 +245,8 @@ Here's a [link to my video result](./project_output.mp4)
 
 3. The transformation matrices calculated isn't accurate enough, and suffers a human error, unlike the detection of chessboard corners.
 
-4. The image is 
+4. The calibration images provided, aren't enough to calibrate the camera. With more than the provided calibration images of the chessboard, the calibration matrix and distortion parameters would be more accurate.
+
+5. The video processing takes a lot of time to process the video, which would be a problem to use in real_time, so buffers and other techniques could be used to speed up the process.
+
+6. Outlier rejection techniques should be used to avoid outliers affecting the fitted curve to the lanes.
