@@ -84,17 +84,51 @@ This resulted in the following source and destination points:
 </p>
 
 ## Single Image Processing Pipeline 
+*The code for this step is contained in the first code cell of the IPython Notebook located in "./examples/example.ipynb" (or in lines # through # of the file called `some_file.py`).*
 
+This pipeline `process_img()` is set with threshholds to detect lanes within an image in the RGB color space. If the image was read with `cv2.imread()`, or is in the BGR color space, it is transformed to RGB using the BGR parameter. `BGR=True`
 ### 1. Remove Image Distortion `cv2.undistort()`
 
-To demonstrate this step, I will describe how I apply the distortion correction to one of the test images like this one:
-![alt text][image2]
+Using OpenCV function `cv2.undistort()`, along with the calculated calibration matrix `mtx`, and distortion parameters `dist`. Input images into the pipeline are undistorted:
+<p align="center">
+<img align="center" src="./writup_imgs/distortion_correction.png" alt="alt text">
+</p>
 
-#### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
+### 2. Threshholded Binary Image
 
-I used a combination of color and gradient thresholds to generate a binary image (thresholding steps at lines # through # in `another_file.py`).  Here's an example of my output for this step.  (note: this is not actually from one of the test images)
+#### To detect the lane lines in an image, several threshholds were applied separately on the image:
+##### 1. Color Threshholds:
+Multiple experiments with all the components within different color spaces were applied to different images under changeable lighting and shadowing, including: HSV, HLS, LUV, LAB, YUV, RGB and GrayScale. These threshholds were implemented using the `color_threshhold()` function. *The following proved to be most efficient*
+1. LUV Color Space: The L Component proved to be most efficient in detecting the right lane 
+   * @threshhold: 210 <= L < 255
+2. LAB Color Space: The B Component proved to be most efficient in detecting the left lane
+   * @threshhold: 150 <= B < 255
+> Since, both detected separate lanes, and were set at appropriate threshholds to produce minimal noise.
+>> Therefore, both color components were executed and combined using the OR `|` operator to achieve a complete layover of both binary images.
+<p align="center">
+<img align="center" src="./writup_imgs/threshholds_color.png" alt="alt text">
+</p>
 
-![alt text][image3]
+##### 2. Gradient Threshholds:
+The Sobel Operator was executed with different calculations to get the gradient in the X and Y direction; `sobel_abs()`, calculating the magnitute of the X and Y outputs; `sobel_mag()`, and the direction of the gradients; `sobel_dir()`. These gradients were introduced to different images, within several threshholds, and these outcomes were concluded:
+1. The Gradient in the X direction was the most efficient in calculating the vertical lines, but it suffered a lot of noise under shadows
+   * @threshhold 20 <= sobelX < 255, 3x3 kernel
+2. The Gradient in the Y direction detected the lanes too (*Specially the right lane*) but also suffered a lot of noise.
+   * @threshhold 30 <= sobelY < 255, 3x3 kernel 
+> Since, The noises suffered in the X and Y directions were different yet both detected the lanes fairly.
+>> Therefore, both gradients were executed and combined using the AND `&` operator to remove the noise from both and still detect the lanes, assisting the color threshholding techniques towards an accurate detection.
+<p align="center">
+<img align="center" src="./writup_imgs/threshholds_sobel.png" alt="alt text">
+</p>
+
+##### 3. Results
+Using the discussed color and gradient thresholds a binary image was created using the OR `|` operator, creating the highest detection of lane lines achieved (thresholding steps at lines # through # in `another_file.py`). 
+
+* The following image, represents, the combined result of the color and gradient threshholding techniques.
+* *Note: It's clear in the Sobel Combined binary image, how the AND `&` operator fairly removes the noise*
+<p align="center">
+<img align="center" src="./writup_imgs/threshholds_summary.png" alt="alt text">
+</p>
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
