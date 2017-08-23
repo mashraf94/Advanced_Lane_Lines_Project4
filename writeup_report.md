@@ -11,10 +11,6 @@ The goals / steps of this project are the following:
 * Warp the detected lane boundaries back onto the original image.
 * Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
 
-## [Rubric Points](https://review.udacity.com/#!/rubrics/571/view) 
-
-### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
-
 ---
 ## Matrices Calculation 
 ### 1. Camera Calibration
@@ -83,6 +79,7 @@ This resulted in the following source and destination points:
 <img align="center" src="./writup_imgs/points_warp.png" alt="alt text">
 </p>
 
+---
 ## Single Image Processing Pipeline 
 *The code for this step is contained in the first code cell of the IPython Notebook located in "./examples/example.ipynb" (or in lines # through # of the file called `some_file.py`).*
 
@@ -206,17 +203,45 @@ The `draw_road()` function executes the final touch on the detected lanes:
 <img align="center" src="./writup_imgs/detected_lanes.png" alt="alt text">
 </p>
 
+---
+## Video Processing Pipeline
+*The code for this step is contained in the first code cell of the IPython Notebook located in "./examples/example.ipynb" (or in lines # through # of the file called `some_file.py`).*
 
-## Pipeline (video)
+*The video pipeline `process_vid()` follows the exact same steps as the single image processing pipeline `procsess_img()`.*
 
-#### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
+#### However, the video pipeline reimplements `process_img()` since the class `Line` is being used. This method is being implemented in `process_vid()` pipeline for the following reasons:
+1. Smoothing out the lane lines detected and avoiding any vigorous jumps between frames.
+2. Applying a sanity check per frame to make sure the detected lanes make sense, the sanity checks applied include:
+   * Asserting that the left and right lanes detected have approximately parallel tangents at the middle of their curves.
+   * Asserting that the left and right lanes detected are approximately equidistant all along the image's height.
 
-Here's a [link to my video result](./project_video.mp4)
+*The pipeline starts applying the `detect_lanes()` function for the first 3 frames and adds them to a queue.*
+
+#### If the lanes detected passes the sanity checks, the lanes are considered legible `road.detected=True`:
+1. The detected lanes are projected onto the image with a weight of `fltr=0.6` to an average of the past `n=5` detected lanes
+2. If the queue of detected lanes reaches its set capacity of `n=5`, it dequeues its first entry, and enqueues the lanes detected.
+3. The lanes radius of curvature and offset are calculated and displayed onto the image.
+4. The next frame undergoes the `look_ahead()` function which instead of processing a blind search on the whole image, it searches the area surrounding the previously detected lanes with a `margin=20`, which speeds up the video processing and creates a more robust output.
+
+#### If the lanes detected fails the sanity checks, the lanes are considered illegible `road.detected=False`:
+* The detected lanes are neglected, and instead an average of the past `n=5` lanes is projected onto the video avoiding any vigorous or incorrect detections.
+* No curvature or offset calculations are executed, hence the last frame's calculated curvature and offset are displayed instead.
+* The first entry of the detected lanes queue is dequeued decrease the first frames bias from the recent misdetected frames
+* The lane detection count is reset to 0, and the next following 3 frames undergo blind searches with the `detect_lanes()` function, to make sure the following detections are more accurate.
+  
+#### Pipeline Output
+
+Here's a [link to my video result](./project_output.mp4)
 
 ---
 
-### Discussion
+## Discussion
+#### Issues faced throughout the implementation of the project
+1. The threshholds chosen might overfit to certain conditions:
+   * The sobel gradient would ruin the detection if any kind of noise was introduced into the lane, like any consistent variance in color within the lane, or a nearby edge, would be detected as an edge, and might cause a faulty detection of the lane lines.
 
-#### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
+2. The shadowing and excessive brightness drastically affects the detection, and might cause distorted detections.
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+3. The transformation matrices calculated isn't accurate enough, and suffers a human error, unlike the detection of chessboard corners.
+
+4. The image is 
