@@ -35,11 +35,11 @@ To calibrate the camera, the calibration images found at [calib_imgs](./calib_im
 6. Apply the acquired distortion correction parameters to input images using the `cv2.undistort()` function
 
 The following figure represents the undistortion applied to 2 chessboard images:
-Row1: The Chessboard's corners were detected, drawn onto the image, and is then undistorted.
-Row2: The Chessboard's corners aren't all included in the image, hence it's corners weren't detected, nonetheless was undistorted using `mtx` and `dist`
+* Row1: The Chessboard's corners were detected, drawn onto the image, and is then undistorted.
+* Row2: The Chessboard's corners aren't all included in the image, hence it's corners weren't detected, nonetheless was undistorted using `mtx` and `dist`
 
 <p align="center">
-<img align="center" src="./writup_imgs/calibration.png" alt="alt text" width="400" height="600">
+<img align="center" src="./writup_imgs/calibration.png" alt="alt text" width="2000" height="800">
 </p>
 
 ### Pipeline (single images)
