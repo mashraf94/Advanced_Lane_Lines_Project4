@@ -18,7 +18,6 @@ The goals / steps of this project are the following:
 ---
 
 ### 1. Camera Calibration
-
 The code for this step is contained in the first code cell of the IPython Notebook located in "./examples/example.ipynb" (or in lines # through # of the file called `some_file.py`).  
 
 To calibrate the camera, the calibration images found at [calib_imgs](./calib_imgs) folder, representing a 9x6 Chessboard:
@@ -39,10 +38,51 @@ The following figure represents the undistortion applied to 2 chessboard images:
 * Row2: The Chessboard's corners aren't all included in the image, hence it's corners weren't detected, nonetheless was undistorted using `mtx` and `dist`
 
 <p align="center">
-<img align="center" src="./writup_imgs/calibration.png" alt="alt text" width="2000" height="800">
+<img align="center" src="./writup_imgs/calibration.png" alt="alt text" width="2000" height="600">
 </p>
 
-### Pipeline (single images)
+### 2. Transformation Matrix
+The code for this step is contained in the first code cell of the IPython Notebook located in "./examples/example.ipynb" (or in lines # through # of the file called `some_file.py`). 
+
+To accurately detect lane line's we need to look at the road with a **Bird's Eye View**, through applying a perspective transform to the image, to view the lanes as parallel lines and have the ability to detect and calculate curvature.
+
+*The following procedures acquired the transformation matrix* `M` *&* `Minv` *which was used to warp any image to a Bird's Eye Perspective, and back to the original perspective later.*
+The function `transform_matrix()` is used to execute the following steps:
+1. Source Points `src` were chosen from a sample image, outlining the lanes in this image.
+2. Destination Points `dst` were determined as an erect rectangle, to transfrom `src` onto `dst` achieving the bird's eye perspective.
+* Source and Destination Points are Calculated Below:
+```python
+## Source Points
+## Start: Bottom Left Corner -- ClockWise Rotation
+src = np.float32([[244.515,685.472],
+                  [575.507,462.495],
+                  [706.532,462.456],
+                  [1061.62,685.42]])
+
+offset = 200
+
+dst = np.float32([[offset,img.shape[0]],
+                  [offset,0],
+                  [img.shape[1]-offset,0],
+                  [img.shape[1]-offset,img.shape[0]]])
+```
+This resulted in the following source and destination points:
+
+| Source        | Destination   | 
+|:-------------:|:-------------:| 
+| 244.5,685.5     | 200, 720        | 
+| 575.5,462.5     | 200, 0      |
+| 706.5,462.5     | 1080, 0      |
+| 1061.6,685.4      | 1080, 720        |
+
+3. Using OpenCV function `cv2.getPerspectiveTransform` we acquire transformation matrix `M` to warp images into bird's eye view.
+4. Through flipping the `src` and `dst` points in `cv2.getPerspectiveTransform` we get the tranformation matrix `Minv` to unwrap the wrapped images back to it's original state.
+* These images represent the `src` points on the Original Image and `dst` points on Warped Image
+<p align="center">
+<img align="center" src="./writup_imgs/points_warp.png" alt="alt text" width="2000" height="600">
+</p>
+
+### Single Image Processing Pipeline 
 
 #### 1. Provide an example of a distortion-corrected image.
 
@@ -59,27 +99,6 @@ I used a combination of color and gradient thresholds to generate a binary image
 
 The code for my perspective transform includes a function called `warper()`, which appears in lines 1 through 8 in the file `example.py` (output_images/examples/example.py) (or, for example, in the 3rd code cell of the IPython notebook).  The `warper()` function takes as inputs an image (`img`), as well as source (`src`) and destination (`dst`) points.  I chose the hardcode the source and destination points in the following manner:
 
-```python
-src = np.float32(
-    [[(img_size[0] / 2) - 55, img_size[1] / 2 + 100],
-    [((img_size[0] / 6) - 10), img_size[1]],
-    [(img_size[0] * 5 / 6) + 60, img_size[1]],
-    [(img_size[0] / 2 + 55), img_size[1] / 2 + 100]])
-dst = np.float32(
-    [[(img_size[0] / 4), 0],
-    [(img_size[0] / 4), img_size[1]],
-    [(img_size[0] * 3 / 4), img_size[1]],
-    [(img_size[0] * 3 / 4), 0]])
-```
-
-This resulted in the following source and destination points:
-
-| Source        | Destination   | 
-|:-------------:|:-------------:| 
-| 585, 460      | 320, 0        | 
-| 203, 720      | 320, 720      |
-| 1127, 720     | 960, 720      |
-| 695, 460      | 960, 0        |
 
 I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
 
