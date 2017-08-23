@@ -16,6 +16,6 @@ The video processing pipeline ``process_vid()``, consists of the following steps
       * Lane's Radius of Curvature in meters
       * Car's absolute offset from the center of the lane in meters
       
-##### Check this video to preview the [pipeline's output](video.mp4)
+##### Check this [video](./project_output.mp4) to preview the pipeline's output
 
-*Please check the [writeup report](writeup_report.md) for further details*
+*Please check the [writeup report](./writeup_report.md) for further details*
