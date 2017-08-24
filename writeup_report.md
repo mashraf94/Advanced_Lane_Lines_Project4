@@ -233,13 +233,13 @@ format_clip = clip.fl_image(process_vid)
 *The pipeline starts applying the `detect_lanes()` function for the first 3 frames and adds them to a queue.*
 
 #### If the lanes detected passes the sanity checks, the lanes are considered legible `road.detected=True`:
-1. The detected lanes are projected onto the image with a weight of `fltr=0.6` to an average of the past `n=5` detected lanes
-2. If the queue of detected lanes reaches its set capacity of `n=5`, it dequeues its first entry, and enqueues the lanes detected.
+1. The detected lanes are projected onto the image with a weight of `fltr` to an average of the past `n` detected lanes
+2. If the queue of detected lanes reaches its set capacity of `n`, it dequeues its first entry, and enqueues the lanes detected.
 3. The lanes radius of curvature and offset are calculated and displayed onto the image.
-4. The next frame undergoes the `look_ahead()` function which instead of processing a blind search on the whole image, it searches the area surrounding the previously detected lanes with a `margin=20`, which speeds up the video processing and creates a more robust output.
+4. The next frame undergoes the `look_ahead()` function which instead of processing a blind search on the whole image, it searches the area surrounding the previously detected lanes with a `margin`, which speeds up the video processing and creates a more robust output.
 
 #### If the lanes detected fails the sanity checks, the lanes are considered illegible `road.detected=False`:
-* The detected lanes are neglected, and instead an average of the past `n=5` lanes is projected onto the video avoiding any vigorous or incorrect detections.
+* The detected lanes are neglected, and instead an average of the past `n` lanes is projected onto the video avoiding any vigorous or incorrect detections.
 * No curvature or offset calculations are executed, hence the last frame's calculated curvature and offset are displayed instead.
 * The first entry of the detected lanes queue is dequeued decrease the first frames bias from the recent misdetected frames
 * The lane detection count is reset to 0, and the next following 3 frames undergo blind searches with the `detect_lanes()` function, to make sure the following detections are more accurate.
