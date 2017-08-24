@@ -17,5 +17,7 @@ The video processing pipeline ``process_vid()``, consists of the following steps
       * Car's absolute offset from the center of the lane in meters
       
 ##### Check this [video](./project_output.mp4) to preview the pipeline's output
+##### Here is a [youtube link](https://youtu.be/3YX-kcZqPTE) for my video to stream it online.
 
 *Please check the [writeup report](./writeup_report.md) for further details*
+*Also check my implementation contained in this [IPython Notebook](./Advanced_LaneFinding_Project-Process-Notebook.ipynb)
