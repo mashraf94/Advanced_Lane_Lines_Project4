@@ -163,7 +163,7 @@ x = f(y) = Ay^2 + By + C
 ``` 
 The following image represents a warped binary image with the lanes detected, and the sliding windows projected onto the image.
 <p align="center">
-<img align="center" src="./writup_imgs/lane_detection.png" alt="alt text">
+<img align="center" src="./writup_imgs/detected_lanelines.png" alt="alt text">
 </p>
 
 #### 3. Radius of Curvature Calculation `realworld_rad()`
@@ -201,7 +201,7 @@ The `draw_road()` function executes the final touch on the detected lanes:
 
 ### 5. Single Image Processing: Pipeline Output
 <p align="center">
-<img align="center" src="./writup_imgs/detected_lanelines.png" alt="alt text">
+<img align="center" src="./writup_imgs/detected_lanes.png" alt="alt text">
 </p>
 
 ---
