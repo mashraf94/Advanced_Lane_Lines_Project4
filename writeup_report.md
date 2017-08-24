@@ -11,10 +11,12 @@ The goals / steps of this project are the following:
 * Warp the detected lane boundaries back onto the original image.
 * Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
 
+### *This report discusses the code contained in the [IPython Notebook](./Advanced_LaneFinding_Project-Process-Notebook.ipynb).*
+
+
 ---
 ## Matrices Calculation 
 ### 1. Camera Calibration
-The code for this step is contained in the first code cell of the IPython Notebook located in "./examples/example.ipynb" (or in lines # through # of the file called `some_file.py`).  
 
 To calibrate the camera, the calibration images found at [calib_imgs](./calib_imgs) folder, representing a 9x6 Chessboard:
 *The following procedures acquired the calibration matrix* ``mtx`` *which was used to undistort any image took by the car's camera.*
@@ -39,7 +41,6 @@ The following figure represents the undistortion applied to 2 chessboard images:
 </p>
 
 ### 2. Transformation Matrix
-The code for this step is contained in the first code cell of the IPython Notebook located in "./examples/example.ipynb" (or in lines # through # of the file called `some_file.py`). 
 
 To accurately detect lane line's we need to look at the road with a **Bird's Eye View**, through applying a perspective transform to the image, to view the lanes as parallel lines and have the ability to detect and calculate curvature.
 
@@ -81,7 +82,6 @@ This resulted in the following source and destination points:
 
 ---
 ## Single Image Processing Pipeline 
-*The code for this step is contained in the first code cell of the IPython Notebook located in "./examples/example.ipynb" (or in lines # through # of the file called `some_file.py`).*
 
 This pipeline `process_img()` is set with threshholds to detect lanes within an image in the RGB color space. If the image was read with `cv2.imread()`, or is in the BGR color space, it is transformed to RGB using the BGR parameter. `process_img(BGR=True)`
 ### 1. Remove Image Distortion `cv2.undistort()`
@@ -135,7 +135,6 @@ After threshholding the image into a binary image, the image is transformed usin
 </p>
 
 ### 4. Lane Detection: Convolutions and Sliding Windows
-*The code for this step is contained in the first code cell of the IPython Notebook located in "./examples/example.ipynb" (or in lines # through # of the file called `some_file.py`).*
 
 #### 1. `detect_lanes()`
 The lane lines in the warped image were detected using the `detect_lanes()` function, which summarizes into the following steps:
@@ -206,7 +205,6 @@ The `draw_road()` function executes the final touch on the detected lanes:
 
 ---
 ## Video Processing Pipeline
-*The code for this step is contained in the first code cell of the IPython Notebook located in "./examples/example.ipynb" (or in lines # through # of the file called `some_file.py`).*
 
 This pipeline `process_vid()` is set with threshholds to detect lanes within an image in the RGB color space. The video is processed using MoviePy library `moviepy.editor`, which reads and writes the video in the same color space.
 ```python
