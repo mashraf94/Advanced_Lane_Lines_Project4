@@ -198,7 +198,7 @@ The `draw_road()` function executes the final touch on the detected lanes:
 2. Projects a green polygon, with the help of `cv2.fillPoly()` onto the original image representing the entire lane; with the left lane highlighted in blue, and right lane in red.
 3. Finally, `cv2.putText()` places the curvature and offset calculated at the top left corner of the image.
 
-### 5. Pipeline Output
+### 5. Single Image Processing: Pipeline Output
 <p align="center">
 <img align="center" src="./writup_imgs/detected_lanes.png" alt="alt text">
 </p>
@@ -229,10 +229,10 @@ The `draw_road()` function executes the final touch on the detected lanes:
 * The first entry of the detected lanes queue is dequeued decrease the first frames bias from the recent misdetected frames
 * The lane detection count is reset to 0, and the next following 3 frames undergo blind searches with the `detect_lanes()` function, to make sure the following detections are more accurate.
   
-#### Pipeline Output
+#### Video Processing: Pipeline Output
 
 Here's my pipeline's [output video](./project_output.mp4)
-Moreover, a [youtube link](https://youtu.be/B-C9LrFamvI) for the video.
+Moreover, a [youtube link](https://youtu.be/B-C9LrFamvI) to watch the video online.
 
 ---
 
