@@ -211,6 +211,11 @@ The `draw_road()` function executes the final touch on the detected lanes:
 This pipeline `process_vid()` is set with threshholds to detect lanes within an image in the RGB color space. The video is processed using MoviePy library `moviepy.editor`, which reads and writes the video in the same color space.
 ```python
 from moviepy.editor import *
+
+# Input Clip: project_video.mp4
+# Output Clip: project_output.mp4
+# Processing Pipeline: process_vid()
+
 clip = VideoFileClip('./project_video.mp4')
 clip_output = './project_output.mp4'
 format_clip = clip.fl_image(process_vid)
