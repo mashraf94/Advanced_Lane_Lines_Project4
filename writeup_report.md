@@ -83,7 +83,7 @@ This resulted in the following source and destination points:
 ## Single Image Processing Pipeline 
 *The code for this step is contained in the first code cell of the IPython Notebook located in "./examples/example.ipynb" (or in lines # through # of the file called `some_file.py`).*
 
-This pipeline `process_img()` is set with threshholds to detect lanes within an image in the RGB color space. If the image was read with `cv2.imread()`, or is in the BGR color space, it is transformed to RGB using the BGR parameter. `BGR=True`
+This pipeline `process_img()` is set with threshholds to detect lanes within an image in the RGB color space. If the image was read with `cv2.imread()`, or is in the BGR color space, it is transformed to RGB using the BGR parameter. `process_img(BGR=True)`
 ### 1. Remove Image Distortion `cv2.undistort()`
 
 Using OpenCV function `cv2.undistort()`, along with the calculated calibration matrix `mtx`, and distortion parameters `dist`. Input images into the pipeline are undistorted:
@@ -95,6 +95,7 @@ Using OpenCV function `cv2.undistort()`, along with the calculated calibration m
 
 #### To detect the lane lines in an image, several threshholds were applied separately on the image:
 ##### 1. Color Threshholds:
+##### *The following threshholds consider only RGB input images*
 Multiple experiments with all the components within different color spaces were applied to different images under changeable lighting and shadowing, including: HSV, HLS, LUV, LAB, YUV, RGB and GrayScale. These threshholds were implemented using the `color_threshhold()` function. *The following proved to be most efficient*
 1. LUV Color Space: The L Component proved to be most efficient in detecting the right lane 
    * @threshhold: 210 <= L < 255
@@ -206,6 +207,8 @@ The `draw_road()` function executes the final touch on the detected lanes:
 ---
 ## Video Processing Pipeline
 *The code for this step is contained in the first code cell of the IPython Notebook located in "./examples/example.ipynb" (or in lines # through # of the file called `some_file.py`).*
+
+This pipeline `process_vid()` is set with threshholds to detect lanes within an image in the RGB color space. If the image was read with `cv2.imread()`, or is in the BGR color space, it is transformed to RGB using the BGR parameter. `process_vid(BGR=True)`
 
 *The video pipeline `process_vid()` follows the exact same steps as the single image processing pipeline `procsess_img()`.*
 
