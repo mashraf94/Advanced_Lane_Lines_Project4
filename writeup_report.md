@@ -201,7 +201,7 @@ The `draw_road()` function executes the final touch on the detected lanes:
 
 ### 5. Single Image Processing: Pipeline Output
 <p align="center">
-<img align="center" src="./writup_imgs/detected_lanes.png" alt="alt text">
+<img align="center" src="./writup_imgs/detected_lanelines.png" alt="alt text">
 </p>
 
 ---
