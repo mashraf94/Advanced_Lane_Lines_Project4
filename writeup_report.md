@@ -246,7 +246,7 @@ format_clip = clip.fl_image(process_vid)
 
 Here's a link to my pipeline's [output video](./project_output.mp4) in this repository.
 
-Moreover, a [youtube link](https://youtu.be/B-C9LrFamvI) to watch the video online.
+Moreover, a [youtube link](https://youtu.be/3YX-kcZqPTE) to watch the video online.
 
 ---
 
